@@ -1,0 +1,42 @@
+---
+# tasks file for termnews-testing
+- name: Installing python
+  apt:
+      name: python
+      state: present
+  become: true
+- name: adding cacert
+  command: "apt-get install ca-certificates"
+  become: true
+- name: Install curl binary
+  apt:
+      name: curl
+      state: present
+  become: true
+- name: Adding apt-key
+  apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+      validate_certs: False
+
+- name: get kernel version
+  command: uname -r 
+  register: kernelVersion
+- debug:
+        msg: "{{ kernelVersion.stdout_lines[0] }}"
+
+- name: Installing extra packages for docker
+  apt:
+     name: "{{ item }}"
+     state: present
+     allow_unauthenticated: true
+  become: true
+  with_items:  
+       - linux-image-extra-virtual
+       - linux-image-extra-{{ kernelVersion.stdout_lines[0] }}
+       - software-properties-common
+       - apt-transport-https
+       - ca-certificates
+
+
+

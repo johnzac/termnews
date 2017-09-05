@@ -1,0 +1,4 @@
+---
+# vars file for termnews-testing
+proxy_env:
+    http_proxy: http://proxy.rubyseven.com:6000
