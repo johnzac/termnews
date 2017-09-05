@@ -1,29 +1,57 @@
 ---
 # tasks file for termnews-testing
-- name: Installing python
-  apt:
-      name: python
-      state: present
+- name: Installing python-apt for apt module
+  command: apt-get install python-apt -y -q
   become: true
-- name: adding cacert
-  command: "apt-get install ca-certificates"
-  become: true
-- name: Install curl binary
-  apt:
-      name: curl
-      state: present
-  become: true
+
 - name: Adding apt-key
   apt_key:
       url: https://download.docker.com/linux/ubuntu/gpg
       state: present
       validate_certs: False
+  become: true
+- name: get distro release
+  command: lsb_release -cs
+  register: releaseCode
+
+- name: Adding docker repository
+  apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ releaseCode.stdout_lines[0] }} stable
+      state: present
+      update_cache: yes
+  become: true
+
+- name: Install curl binary
+  apt:
+      name: curl
+      state: present
+  become: true
+
+- name: Adding CA certificates
+  apt:
+     name: ca-certificates
+     state: present
+  become: true
+
+- name: Installing git
+  apt:
+     name: git
+     state: present
+  become: true
 
 - name: get kernel version
   command: uname -r 
   register: kernelVersion
+
 - debug:
         msg: "{{ kernelVersion.stdout_lines[0] }}"
+
+- name: Installing kernel specific extra packages
+  apt:
+     name: linux-image-extra-{{ kernelVersion.stdout_lines[0] }}
+     state: present
+  ignore_errors: yes
+  become: true
 
 - name: Installing extra packages for docker
   apt:
@@ -33,10 +61,57 @@
   become: true
   with_items:  
        - linux-image-extra-virtual
-       - linux-image-extra-{{ kernelVersion.stdout_lines[0] }}
        - software-properties-common
        - apt-transport-https
        - ca-certificates
 
+- name: Installing python pip
+  apt:
+     name: python-pip
+     state: present
+  become: true
+
+- name: Installing docker command line tools
+  apt:
+     name: "{{ item }}"
+     state: present
+     
+  become: true
+  with_items:
+       - docker-ce
+
+- name: Installing docker compose tool
+  pip:
+     name: docker-compose
+  become: true
+
+- name: pulling git checkout
+  git:
+    repo: "{{ githubRepoUrl }}"
+    dest: "{{ hostRepoDestination }}"
+    force: yes
+
+- replace:
+    path: "{{ hostRepoDestination }}/worker/python/secrets.yml"
+    regexp: '<FROMID>'
+    replace: "{{ from_email }}"
+
+- replace:
+    path: "{{ hostRepoDestination }}/worker/python/secrets.yml"
+    regexp: '<PASSWORD>'
+    replace: "{{ password }}"
+
+
+- name: Running docker-compose build
+  command: docker-compose build
+  args:
+      chdir: "{{ hostRepoDestination }}"
+  become: true
+      
+- name: Bringing up the containers
+  command: docker-compose up -d
+  args:
+      chdir: "{{ hostRepoDestination }}"
+  become: true
 
 

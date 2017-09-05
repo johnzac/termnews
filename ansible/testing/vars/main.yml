@@ -1,4 +1,7 @@
 ---
 # vars file for termnews-testing
-proxy_env:
-    http_proxy: http://proxy.rubyseven.com:6000
+githubRepoUrl: "https://github.com/johnzac/termnews.git"
+hostRepoDestination: "/home/ubuntu/termnews"
+from_email: "EMAIL"
+password: "PASSWORD"
+
