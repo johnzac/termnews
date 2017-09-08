@@ -1,0 +1,3 @@
+- hosts: testing
+  roles:
+      - testing
