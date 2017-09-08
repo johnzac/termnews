@@ -10,7 +10,7 @@ sleep 5
 cd $gitDirectory
 cd boto/testing
 python getInstances.py
-cp testing ansibleRunDirectory/testing
+cp testing $ansibleRunDirectory/testing
 cd $ansibleRunDirectory
 ansible-playbook $ansiblePlayBookFile -i testing
 
