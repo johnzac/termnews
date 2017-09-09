@@ -57,5 +57,6 @@ for temp in link:
             redisKey=subSection + "." + base
             r.set(redisKey, subSectionUrl)
 print (json.dumps(urlDict))
+r.set("news_section",json.dumps(urlDict))
 
 
