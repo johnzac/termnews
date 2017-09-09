@@ -1,0 +1,9 @@
+---
+- config:
+    - testset: "Quickstart app tests"
+
+- test:
+    - name: "Basic smoketest"
+    - url: "/getSections"
+    - validators: 
+         - json_schema: {schema: {file: 'val.json'}}
