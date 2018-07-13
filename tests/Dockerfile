@@ -7,4 +7,4 @@ RUN apk add --no-cache py-curl
 RUN pip install jsonschema
 COPY pyresttest/ /home/pyresttest/
 WORKDIR "/home/pyresttest/"
-CMD ["python","resttest.py","http://producer","test.yml"]
+CMD sleep 10 && python resttest.py http://producer test.yml
