@@ -1,11 +1,5 @@
 version: '3'
 services:
-  webserver:
-    build: ./nginx
-    ports:
-        - "80:80"
-    depends_on:
-        - producer
   redis:
       build: ./redis
       expose:
@@ -24,12 +18,12 @@ services:
 
   producer:
       build: ./producer
-      expose:
-          - "8888"
+      ports:
+          - "80:80"
       depends_on:
           - worker 
    
   integrationtests:
       build: ./tests
       depends_on: 
-          - webserver
+          - producer

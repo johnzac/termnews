@@ -1,6 +1,5 @@
 import pika,json,yaml,time,redis
 from flask import Flask,request
-from flup.server.fcgi import WSGIServer
 app = Flask(__name__)
 with open("secrets.yml","r") as ymlfile:
             cfg= yaml.load(ymlfile)
@@ -31,5 +30,6 @@ def getSections():
             time.sleep(2)
     sections=r.get("news_section")
     return sections
-WSGIServer(app, bindAddress=('0.0.0.0',8888)).run()
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=80)
 
