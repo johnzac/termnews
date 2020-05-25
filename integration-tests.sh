@@ -30,5 +30,6 @@ if [ -z ${TEST_EXIT_CODE} ] || [ "$TEST_EXIT_CODE" -ne 0 ] ; then
     fi
     # call the cleanup fuction
     cleanup
+    cleanup
     # exit the script with the same code as the test service code
     exit $TEST_EXIT_CODE
