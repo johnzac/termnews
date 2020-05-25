@@ -1,4 +1,4 @@
-From alpine
+FROM alpine
 RUN apk add --no-cache python3
 RUN pip3 install flup
 RUN pip3 install requests

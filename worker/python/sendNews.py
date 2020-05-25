@@ -40,7 +40,12 @@ def fetchNews(ch, method,properties,inputDict):
                 bodyRedis+= str(encodedBody) + "\n\n\n"
         else:
             bodyRedis+=str(redisEncodedBody)
-    sendmailStatus = sendMail.sendMail(bodyRedis, inputDict['email'])
+    #sendmailStatus = sendMail.sendMail(bodyRedis, inputDict['email'])
+    print(bodyRedis)
+    filename="/root/news/" + inputDict['items'][0]
+    f = open(filename,'w')
+    f.write(bodyRedis)
+    f.close()
 #    ch.basic_ack(delivery_tag = method.delivery_tag)
 with open("secrets.yml","r") as ymlfile:
     cfg= yaml.load(ymlfile)
@@ -56,7 +61,8 @@ while True:
 channel = connection.channel()
 channel.queue_declare(queue=cfg['rabbitmq']['queue_name'],durable=True)
 channel.basic_qos(prefetch_count=1)
-channel.basic_consume(fetchNews,queue=cfg['rabbitmq']['queue_name'])
+#channel.basic_consume(fetchNews,queue=cfg['rabbitmq']['queue_name'])
+channel.basic_consume(cfg['rabbitmq']['queue_name'],fetchNews)
 channel.start_consuming()
 
 

@@ -1,11 +1,5 @@
 version: '3'
 services:
-#  webserver:
-#    build: ./nginx
-#    ports:
-#        - "80:80"
-#    depends_on:
-#        - producer
   redis:
       build: ./redis
       expose:
@@ -21,6 +15,8 @@ services:
       depends_on:
           - redis
           - rabbitmq
+      volumes:
+          - /home/owl/termnews/news:/root/news
 
   producer:
       build: ./producer
