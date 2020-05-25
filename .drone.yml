@@ -13,8 +13,8 @@ steps:
 
 - name: template
   image: alpine
-  environment:
-      - DRONE_TAG="${DRONE_TAG}"
+  #  environment:
+  #       - DRONE_TAG: "${DRONE_TAG}"
   commands:
       - sed -i "s/COMPLETETAG/${DRONE_TAG}/" termnews.yml
       - cat termnews.yml
