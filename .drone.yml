@@ -10,3 +10,11 @@ steps:
     region: ap-south-1
     tags:
       - ${DRONE_TAG}
+
+- name: template
+  image: alpine
+  environment:
+      - DRONE_TAG=${DRONE_TAG}
+  commands:
+      - sed -i "s/COMPLETETAG/${DRONE_TAG}/" termnews.yml
+      - cat termnews.yml

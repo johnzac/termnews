@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  datarain:
+    image: 892481148093.dkr.ecr.ap-south-1.amazonaws.com/drone-test:COMPLETETAG
+    networks:
+     - nginx
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 30s
+      restart_policy:
+        condition: on-failure
+    env_file:
+      - ./staging.env
+      - ./gron-secret.env
+    ports:
+      - 8081:80
+networks:
+  nginx:
+      driver: overlay
+      ipam:
+          driver: default
+          config:
+               - subnet: 172.25.5.0/24
+
