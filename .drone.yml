@@ -8,3 +8,4 @@ steps:
     repo: drone-test
     registry: 892481148093.dkr.ecr.ap-south-1.amazonaws.com
     region: ap-south-1
+    auto_tag: true
