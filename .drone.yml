@@ -1,5 +1,5 @@
 kind: pipeline
-name: defaultnew
+name: defaultnewpipe
 
 steps:
 - name: publish  
