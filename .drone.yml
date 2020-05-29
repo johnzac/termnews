@@ -24,6 +24,7 @@ steps:
     DOCKER_HOST:
       from_secret: stagingDockerHost
   commands:
-      - echo $${DOCKER_HOST}
+      - echo ${DOCKER_HOST}
       - docker ps
+      - cat termnews.yml | docker stack deploy -c - --with-registry-auth dronetest
       
