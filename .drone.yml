@@ -1,5 +1,6 @@
 kind: pipeline
 name: defaultnewpipe
+type: docker
 
 steps:
 - name: publish  
@@ -9,12 +10,16 @@ steps:
     registry: 892481148093.dkr.ecr.ap-south-1.amazonaws.com
     region: ap-south-1
     tags:
-      - ${DRONE_TAG}
+      - ${DRONE_BUILD_NUMBER}
+      - v0.1.0
 
 - name: template
   image: alpine
-  #  environment:
-  #       - DRONE_TAG: "${DRONE_TAG}"
   commands:
-      - sed -i "s/COMPLETETAG/${DRONE_TAG}/" termnews.yml
+      - sed -i "s/COMPLETETAG/${DRONE_BUILD_NUMBER}/" termnews.yml
+      - cat termnews.yml
+
+- name: testtemplate
+  image: alpine
+  commands:
       - cat termnews.yml
