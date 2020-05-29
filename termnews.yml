@@ -15,12 +15,12 @@ services:
       - ./staging.env
       - ./gron-secret.env
     ports:
-      - 8081:80
+      - 8084:80
 networks:
   nginx:
       driver: overlay
       ipam:
           driver: default
           config:
-               - subnet: 172.25.5.0/24
+               - subnet: 172.25.4.0/24
 

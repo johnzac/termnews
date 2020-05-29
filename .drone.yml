@@ -18,8 +18,12 @@ steps:
   commands:
       - sed -i "s/COMPLETETAG/${DRONE_BUILD_NUMBER}/" termnews.yml
       - cat termnews.yml
-
-- name: testtemplate
-  image: alpine
+- name: deploy
+  image: docker
+  environment:
+    DOCKER_HOST:
+      from_secret: stagingDockerHost
   commands:
-      - cat termnews.yml
+      - echo $${DOCKER_HOST}
+      - docker ps
+      
