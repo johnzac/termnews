@@ -11,9 +11,6 @@ services:
         delay: 30s
       restart_policy:
         condition: on-failure
-    env_file:
-      - ./staging.env
-      - ./gron-secret.env
     ports:
       - 8084:80
 networks:
