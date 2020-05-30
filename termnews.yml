@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  datarain:
+  dronetest:
     image: 892481148093.dkr.ecr.ap-south-1.amazonaws.com/drone-test:COMPLETETAG
     networks:
      - nginx
