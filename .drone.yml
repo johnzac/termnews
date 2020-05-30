@@ -19,7 +19,7 @@ steps:
       - sed -i "s/COMPLETETAG/${DRONE_BUILD_NUMBER}/" termnews.yml
       - cat termnews.yml
 - name: deploy
-  image: docker
+  image: 892481148093.dkr.ecr.ap-south-1.amazonaws.com/docker-base:1.0
   environment:
     DOCKER_HOST:
       from_secret: stagingDockerHost
