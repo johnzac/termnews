@@ -6,6 +6,7 @@ steps:
 - name: template
   image: alpine
   commands:
+      - echo "works after hitting limit"
       - echo "hello"
       - cat termnews.yml
 
