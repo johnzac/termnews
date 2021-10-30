@@ -3,28 +3,10 @@ name: defaultnewpipe
 type: docker
 
 steps:
-- name: publish  
-  image: plugins/ecr
-  settings:
-    repo: drone-test
-    registry: 892481148093.dkr.ecr.ap-south-1.amazonaws.com
-    region: ap-south-1
-    tags:
-      - ${DRONE_BUILD_NUMBER}
-      - v0.1.0
-
 - name: template
   image: alpine
   commands:
-      - sed -i "s/COMPLETETAG/${DRONE_BUILD_NUMBER}/" termnews.yml
+      - echo "hello"
       - cat termnews.yml
-- name: deploy
-  image: 892481148093.dkr.ecr.ap-south-1.amazonaws.com/docker-base:1.0
-  environment:
-    DOCKER_HOST:
-      from_secret: stagingDockerHost
-  commands:
-      - echo ${DOCKER_HOST}
-      - docker ps
-      - cat termnews.yml | docker stack deploy -c - --with-registry-auth dronetest
+
       
